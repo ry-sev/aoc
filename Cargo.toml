@@ -1,0 +1,15 @@
+[package]
+name = "aoc"
+version = "0.1.0"
+authors = ["Ricardus Severino"]
+edition = "2021"
+description = "Advent of Code solutions"
+license = "MIT"
+keywords = ["aoc"]
+readme = "README.md"
+
+[lib]
+name = "aoc"
+path = "src/lib.rs"
+
+[dependencies]
