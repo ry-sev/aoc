@@ -13,3 +13,5 @@ name = "aoc"
 path = "src/lib.rs"
 
 [dependencies]
+anyhow = "1.0.75"
+regex = "1.10.2"
