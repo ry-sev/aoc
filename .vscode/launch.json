@@ -5,7 +5,7 @@
 			"name": "launch",
 			"type": "lldb",
 			"request": "launch",
-			"program": "${workspaceRoot}/target/debug/day_01",
+			"program": "${workspaceRoot}/target/debug/day_05_1",
 			"args": [],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": "Cargo Build"
