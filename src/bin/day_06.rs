@@ -5,36 +5,35 @@ use std::{
 };
 
 #[derive(Default, Debug)]
-struct Race(u16, u16);
+struct Race(usize, usize);
 
-#[allow(dead_code)]
 impl Race {
-	fn time(&self) -> u16 {
+	fn time(&self) -> usize {
 		self.0
 	}
 
-	fn distance_record(&self) -> u16 {
+	fn distance_record(&self) -> usize {
 		self.1
 	}
 
-	fn distance(&self, hold_time: u16) -> u16 {
+	fn distance(&self, hold_time: usize) -> usize {
 		self.time()
 			.checked_sub(hold_time)
 			.map_or(0, |diff| diff.saturating_mul(hold_time))
 	}
 
-	fn possible_hold_times(&self) -> Vec<u16> {
+	fn possible_hold_times(&self) -> Vec<usize> {
 		let race_time = self.time();
 		let distance_record = self.distance_record();
 
-		(1..=race_time)
+		(0..=race_time)
 			.filter(|&i| self.distance(i) > distance_record)
 			.collect()
 	}
 }
 
-impl From<(u16, u16)> for Race {
-	fn from((time, distance): (u16, u16)) -> Self {
+impl From<(usize, usize)> for Race {
+	fn from((time, distance): (usize, usize)) -> Self {
 		Self(time, distance)
 	}
 }
@@ -78,6 +77,7 @@ fn main() -> Result<()> {
 	let races = races_from_file("inputs/day_06.txt")?;
 
 	part_one(&races);
+	part_two(&races);
 
 	Ok(())
 }
@@ -90,7 +90,37 @@ fn part_one(races: &[Race]) {
 		.iter()
 		.product();
 
-	println!("{}", margin_of_error);
+	println!("Part 1: {}", margin_of_error);
+}
+
+fn part_two(races: &[Race]) {
+	let time: usize = races
+		.iter()
+		.map(|race| race.time().to_string())
+		.collect::<String>()
+		.parse()
+		.unwrap_or_default();
+
+	let distance: usize = races
+		.iter()
+		.map(|race| race.distance_record().to_string())
+		.collect::<String>()
+		.parse()
+		.unwrap_or_default();
+
+	let margin_of_error = quadratic_formula(time as f64, distance as f64);
+
+	println!("Part 2: {}", margin_of_error);
+}
+
+fn quadratic_formula(hold_duration: f64, distance: f64) -> f64 {
+	let discriminant = hold_duration * hold_duration - 4.0 * distance;
+
+	let sqrt_discriminant = discriminant.sqrt();
+	let low = (hold_duration - sqrt_discriminant) / 2.0;
+	let high = (hold_duration + sqrt_discriminant) / 2.0;
+
+	high.ceil() - low.floor() - 1.
 }
 
 #[cfg(test)]
