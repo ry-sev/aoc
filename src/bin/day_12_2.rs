@@ -1,6 +1,6 @@
 use itertools::{repeat_n, Itertools};
 
-#[derive(Debug, Eq, PartialEq, Hash)]
+#[derive(Debug)]
 struct Record {
 	springs: Vec<char>,
 	unknown: u32,
